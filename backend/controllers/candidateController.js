@@ -91,19 +91,18 @@ Only return the JSON array.
 `;
 
         const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
-            model: 'meta-llama/llama-3-8b-instruct:free', 
+            model: 'openai/gpt-3.5-turbo', 
             messages: [{ role: 'user', content: prompt }]
         }, {
             headers: {
                 'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-                'HTTP-Referer': 'https://talentmatch.ai',
-                'X-Title': 'Candidate Shortlisting System',
+                'HTTP-Referer': 'https://render.com',
+                'X-Title': 'TalentMatch AI',
                 'Content-Type': 'application/json'
             }
         });
 
         const content = response.data.choices[0].message.content.trim();
-        // Extract JSON if it's wrapped in markdown code blocks
         const jsonMatch = content.match(/\[[\s\S]*\]/);
         const jsonStr = jsonMatch ? jsonMatch[0] : content;
         
@@ -111,12 +110,11 @@ Only return the JSON array.
             const aiResults = JSON.parse(jsonStr);
             res.status(200).json(aiResults);
         } catch (parseError) {
-            console.error('AI JSON Parse Error:', content);
-            res.status(500).json({ error: 'AI returned invalid format. Please try again.' });
+            res.status(500).json({ error: 'AI returned invalid format.' });
         }
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'AI analysis failed: ' + error.message });
+        console.error('AI ERROR:', error.response?.data || error.message);
+        res.status(500).json({ error: 'AI analysis failed: ' + (error.response?.data?.error?.message || error.message) });
     }
 };
 
@@ -129,12 +127,10 @@ exports.chatAssistant = async (req, res) => {
             return res.status(500).json({ error: 'OpenRouter API Key not configured' });
         }
 
-        const systemPrompt = `You are a helpful recruitment assistant for the TalentMatch AI platform. 
-        You help recruiters with candidate analysis, job descriptions, and interview tips. 
-        Current context: ${JSON.stringify(context || 'None')}`;
+        const systemPrompt = `You are a helpful recruitment assistant for the TalentMatch AI platform.`;
 
         const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
-            model: 'meta-llama/llama-3-8b-instruct:free',
+            model: 'openai/gpt-3.5-turbo',
             messages: [
                 { role: 'system', content: systemPrompt },
                 { role: 'user', content: message }
@@ -142,14 +138,15 @@ exports.chatAssistant = async (req, res) => {
         }, {
             headers: {
                 'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-                'HTTP-Referer': 'https://localhost:3000',
-                'X-Title': 'Candidate Shortlisting System',
+                'HTTP-Referer': 'https://render.com',
+                'X-Title': 'TalentMatch AI',
                 'Content-Type': 'application/json'
             }
         });
 
         res.status(200).json({ reply: response.data.choices[0].message.content });
     } catch (error) {
-        res.status(500).json({ error: 'Chat failed: ' + error.message });
+        console.error('CHAT ERROR:', error.response?.data || error.message);
+        res.status(500).json({ error: 'Chat failed: ' + (error.response?.data?.error?.message || error.message) });
     }
 };
