@@ -44,8 +44,12 @@ const JobForm = ({ onMatch }) => {
   };
 
   return (
-    <div className="glass-card animate-fade-in">
-      <h2 style={{ marginBottom: '1.5rem' }}>Job Requirements</h2>
+    <div className="glass-card">
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '2rem' }}>
+        <div style={{ padding: '0.75rem', background: 'var(--accent)', borderRadius: '0.75rem', color: 'var(--bg-dark)' }}>🎯</div>
+        <h2 style={{ margin: 0 }}>Job Specs</h2>
+      </div>
+
       <div className="input-group">
         <label>Required Skills</label>
         <input 
@@ -57,7 +61,7 @@ const JobForm = ({ onMatch }) => {
       </div>
       
       <div className="input-group">
-        <label>Minimum Experience (Years)</label>
+        <label>Min Experience (Years)</label>
         <input 
           type="number" 
           placeholder="1" 
@@ -66,8 +70,8 @@ const JobForm = ({ onMatch }) => {
         />
       </div>
       
-      <div className="input-group">
-        <label>Preferred Skills (Optional)</label>
+      <div className="input-group" style={{ marginBottom: '2rem' }}>
+        <label>Preferred Skills</label>
         <input 
           type="text" 
           placeholder="e.g. AWS, Docker" 
@@ -76,22 +80,20 @@ const JobForm = ({ onMatch }) => {
         />
       </div>
       
-      <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+      <div style={{ display: 'grid', gap: '1rem' }}>
         <button 
           className="btn btn-primary" 
-          style={{ flex: 1 }}
           onClick={() => handleMatch('basic')}
           disabled={loading || aiLoading}
         >
-          {loading ? 'Matching...' : 'Basic Shortlist'}
+          {loading ? 'Processing...' : '⚡ Quick Match'}
         </button>
         <button 
           className="btn btn-accent" 
-          style={{ flex: 1 }}
           onClick={() => handleMatch('ai')}
           disabled={loading || aiLoading}
         >
-          {aiLoading ? 'Analyzing...' : 'AI-Powered Shortlist'}
+          {aiLoading ? 'Analyzing...' : '🤖 AI Intelligent Match'}
         </button>
       </div>
     </div>

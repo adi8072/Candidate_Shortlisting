@@ -30,32 +30,30 @@ function App() {
 
   return (
     <div className="container">
-      <header style={{ textAlign: 'center', marginBottom: '3rem', paddingTop: '2rem' }}>
-        <h1 style={{ fontSize: '3rem', marginBottom: '0.5rem', background: 'linear-gradient(to right, #6366f1, #22d3ee)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-          TalentMatch AI
-        </h1>
-        <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>
-          Intelligent Candidate Shortlisting & Ranking System
+      <header style={{ textAlign: 'center', marginBottom: '4rem', paddingTop: '3rem' }} className="animate-up">
+        <h1>TalentMatch AI</h1>
+        <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' }}>
+          The next generation of recruitment. Match top talent with precision using our advanced AI engine.
         </p>
       </header>
 
-      <div className="tab-nav">
+      <div className="tab-nav animate-up" style={{ animationDelay: '0.1s' }}>
         <button 
           className={`tab-btn ${activeTab === 'job' ? 'active' : ''}`}
           onClick={() => setActiveTab('job')}
         >
-          Match Talent
+          🎯 Match Talent
         </button>
         <button 
           className={`tab-btn ${activeTab === 'candidate' ? 'active' : ''}`}
           onClick={() => setActiveTab('candidate')}
         >
-          Onboard Candidates ({candidatesCount})
+          👤 Onboard ({candidatesCount})
         </button>
       </div>
 
-      <div className="grid" style={{ gridTemplateColumns: '1fr 2fr', alignItems: 'start' }}>
-        <aside>
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(350px, 400px) 1fr', gap: '3rem', alignItems: 'start' }}>
+        <aside className="animate-up" style={{ animationDelay: '0.2s' }}>
           {activeTab === 'candidate' ? (
             <CandidateForm onCandidateAdded={fetchCount} />
           ) : (
@@ -63,13 +61,13 @@ function App() {
           )}
         </aside>
 
-        <main>
+        <main className="animate-up" style={{ animationDelay: '0.3s' }}>
           {results.length > 0 ? (
-            <div className="animate-fade-in">
-              <h2 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                {isAiView ? '🤖 AI Insights' : '🎯 Best Matches'}
-                <span style={{ fontSize: '0.875rem', fontWeight: 400, color: 'var(--text-muted)' }}>
-                  ({results.length} results found)
+            <div>
+              <h2 style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                {isAiView ? '🤖 AI Intelligence Report' : '🎯 Shortlisted Candidates'}
+                <span style={{ fontSize: '0.9rem', fontWeight: 400, color: 'var(--text-muted)', background: 'rgba(255,255,255,0.05)', padding: '0.3rem 0.8rem', borderRadius: '1rem' }}>
+                  {results.length} Found
                 </span>
               </h2>
               <div style={{ display: 'grid', gap: '1.5rem' }}>
@@ -79,13 +77,13 @@ function App() {
               </div>
             </div>
           ) : (
-            <div className="glass-card" style={{ textAlign: 'center', padding: '4rem 2rem' }}>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔍</div>
-              <h3>Ready to find your next star?</h3>
-              <p style={{ color: 'var(--text-muted)', marginTop: '0.5rem' }}>
+            <div className="glass-card" style={{ textAlign: 'center', padding: '6rem 2rem', borderStyle: 'dashed', borderWidth: '2px' }}>
+              <div style={{ fontSize: '4rem', marginBottom: '1.5rem', opacity: 0.5 }}>✨</div>
+              <h3>Launch your search</h3>
+              <p style={{ color: 'var(--text-muted)', marginTop: '1rem', maxWidth: '400px', margin: '1rem auto' }}>
                 {activeTab === 'candidate' 
-                  ? 'Fill out the form on the left to add a candidate to the database.' 
-                  : 'Enter job requirements on the left to see matching candidates.'}
+                  ? 'Add candidate profiles to build your talent pool.' 
+                  : 'Configure job requirements on the left to begin the matching process.'}
               </p>
             </div>
           )}

@@ -44,37 +44,40 @@ const CandidateForm = ({ onCandidateAdded }) => {
   };
 
   return (
-    <div className="glass-card animate-fade-in">
-      <h2 style={{ marginBottom: '1.5rem' }}>Add New Candidate</h2>
+    <div className="glass-card">
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '2rem' }}>
+        <div style={{ padding: '0.75rem', background: 'var(--primary)', borderRadius: '0.75rem', color: 'white' }}>👤</div>
+        <h2 style={{ margin: 0 }}>Add Candidate</h2>
+      </div>
+
       <form onSubmit={handleSubmit}>
-        <div className="grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-          <div className="input-group">
-            <label>Full Name</label>
-            <input 
-              type="text" 
-              placeholder="e.g. Rahul Sharma" 
-              value={formData.name}
-              onChange={(e) => setFormData({...formData, name: e.target.value})}
-              required
-            />
-          </div>
-          <div className="input-group">
-            <label>Email Address</label>
-            <input 
-              type="email" 
-              placeholder="rahul@example.com" 
-              value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
-              required
-            />
-          </div>
+        <div className="input-group">
+          <label>Full Name</label>
+          <input 
+            type="text" 
+            placeholder="John Doe" 
+            value={formData.name}
+            onChange={(e) => setFormData({...formData, name: e.target.value})}
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label>Email</label>
+          <input 
+            type="email" 
+            placeholder="john@example.com" 
+            value={formData.email}
+            onChange={(e) => setFormData({...formData, email: e.target.value})}
+            required
+          />
         </div>
         
         <div className="input-group">
-          <label>Skills (comma separated)</label>
+          <label>Skills</label>
           <input 
             type="text" 
-            placeholder="React, Node.js, MongoDB" 
+            placeholder="React, Python, AWS..." 
             value={formData.skills}
             onChange={(e) => setFormData({...formData, skills: e.target.value})}
             required
@@ -85,7 +88,7 @@ const CandidateForm = ({ onCandidateAdded }) => {
           <label>Years of Experience</label>
           <input 
             type="number" 
-            placeholder="2" 
+            placeholder="0" 
             value={formData.experience}
             onChange={(e) => setFormData({...formData, experience: e.target.value})}
             required
@@ -93,17 +96,17 @@ const CandidateForm = ({ onCandidateAdded }) => {
         </div>
         
         <div className="input-group">
-          <label>Short Bio / Projects</label>
+          <label>Bio & Background</label>
           <textarea 
-            rows="4" 
-            placeholder="Describe background and key projects..."
+            rows="3" 
+            placeholder="Briefly describe background..."
             value={formData.bio}
             onChange={(e) => setFormData({...formData, bio: e.target.value})}
           ></textarea>
         </div>
         
-        <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={loading}>
-          {loading ? 'Adding...' : 'Save Candidate Profile'}
+        <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }} disabled={loading}>
+          {loading ? 'Saving...' : 'Add to Database'}
         </button>
       </form>
     </div>
