@@ -91,7 +91,7 @@ Only return the JSON array.
 `;
 
         const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
-            model: 'google/gemini-2.0-flash-lite-001', // Using a highly reliable model
+            model: 'meta-llama/llama-3-8b-instruct:free', 
             messages: [{ role: 'user', content: prompt }]
         }, {
             headers: {
@@ -134,7 +134,7 @@ exports.chatAssistant = async (req, res) => {
         Current context: ${JSON.stringify(context || 'None')}`;
 
         const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
-            model: 'google/gemini-2.0-flash-lite-001',
+            model: 'meta-llama/llama-3-8b-instruct:free',
             messages: [
                 { role: 'system', content: systemPrompt },
                 { role: 'user', content: message }
