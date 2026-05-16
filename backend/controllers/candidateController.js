@@ -91,7 +91,7 @@ Only return the JSON array.
 `;
 
         const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
-            model: 'openrouter/auto', 
+            model: 'openrouter/free', 
             messages: [{ role: 'user', content: prompt }]
         }, {
             headers: {
@@ -130,7 +130,7 @@ exports.chatAssistant = async (req, res) => {
         const systemPrompt = `You are a helpful recruitment assistant for the TalentMatch AI platform.`;
 
         const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
-            model: 'openrouter/auto',
+            model: 'openrouter/free',
             messages: [
                 { role: 'system', content: systemPrompt },
                 { role: 'user', content: message }
