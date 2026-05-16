@@ -91,19 +91,29 @@ Only return the JSON array.
 `;
 
         const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
-            model: 'openai/gpt-3.5-turbo',
+            model: 'google/gemini-2.0-flash-lite-001', // Using a highly reliable model
             messages: [{ role: 'user', content: prompt }]
         }, {
             headers: {
                 'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-                'HTTP-Referer': 'https://localhost:3000',
+                'HTTP-Referer': 'https://talentmatch.ai',
                 'X-Title': 'Candidate Shortlisting System',
                 'Content-Type': 'application/json'
             }
         });
 
-        const aiResults = JSON.parse(response.data.choices[0].message.content.trim());
-        res.status(200).json(aiResults);
+        const content = response.data.choices[0].message.content.trim();
+        // Extract JSON if it's wrapped in markdown code blocks
+        const jsonMatch = content.match(/\[[\s\S]*\]/);
+        const jsonStr = jsonMatch ? jsonMatch[0] : content;
+        
+        try {
+            const aiResults = JSON.parse(jsonStr);
+            res.status(200).json(aiResults);
+        } catch (parseError) {
+            console.error('AI JSON Parse Error:', content);
+            res.status(500).json({ error: 'AI returned invalid format. Please try again.' });
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'AI analysis failed: ' + error.message });
@@ -124,7 +134,7 @@ exports.chatAssistant = async (req, res) => {
         Current context: ${JSON.stringify(context || 'None')}`;
 
         const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
-            model: 'openai/gpt-3.5-turbo',
+            model: 'google/gemini-2.0-flash-lite-001',
             messages: [
                 { role: 'system', content: systemPrompt },
                 { role: 'user', content: message }
