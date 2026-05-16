@@ -12,7 +12,8 @@ function App() {
 
   const fetchCount = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/candidates');
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const res = await fetch(`${apiUrl}/api/candidates`);
       const data = await res.json();
       setCandidatesCount(data.length);
     } catch (e) {}
