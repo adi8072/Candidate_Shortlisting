@@ -15,6 +15,10 @@ app.use(express.json());
 // Routes
 app.use('/api', candidateRoutes);
 
+app.get('/', (req, res) => {
+    res.send('TalentMatch AI Backend is running!');
+});
+
 // MongoDB Connection
 const MONGO_URI = process.env.MONGO_URI;
 
